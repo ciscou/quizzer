@@ -6,7 +6,7 @@ class Question
   end
 
   def self.as_json(questions)
-    Hash[questions.each_with_index.map { |q, i| [ i.to_s, q.attributes ] }]
+    Hash[questions.each_with_index.map { |q, i| [ i.to_s, q.as_json ] }]
   end
 
   def self.build
@@ -18,8 +18,12 @@ class Question
     @answers  = attrs["answers"].values.map { |a| Answer.new(a) }
   end
 
+  def as_json
+    { "question" => @question, "answers" => Answer.as_json(@answers) }
+  end
+
   def attributes
-    { "question" => @question, :answers => @answers.map(&:attributes) }
+    { "question" => @question, "answers" => @answers.map(&:attributes) }
   end
 
   def inspect

@@ -17,6 +17,10 @@ class Answer
     @answer = attrs["answer"]
   end
 
+  def as_json
+    { "answer" => @answer }
+  end
+
   def attributes
     { "answer" => @answer }
   end

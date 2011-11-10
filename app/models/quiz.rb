@@ -5,11 +5,11 @@ class Quiz < ActiveRecord::Base
 
   def questions=(_questions)
     @questions = _questions
-    self.questions_attributes = Question.as_json(_questions)
+    write_attribute(:questions, Question.as_json(_questions).to_json)
   end
 
   def questions_attributes=(attrs)
-    write_attribute(:questions, attrs.to_json)
+    self.questions = attrs.values.map { |a| Question.new(a) }
   end
 
   def build_question
