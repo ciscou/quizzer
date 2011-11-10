@@ -25,6 +25,8 @@ class QuizzesController < ApplicationController
   # GET /quizzes/new.json
   def new
     @quiz = Quiz.new
+    @quiz.build_question
+    @quiz.questions.each(&:build_answer)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -35,6 +37,8 @@ class QuizzesController < ApplicationController
   # GET /quizzes/1/edit
   def edit
     @quiz = Quiz.find(params[:id])
+    @quiz.build_question
+    @quiz.questions.each(&:build_answer)
   end
 
   # POST /quizzes

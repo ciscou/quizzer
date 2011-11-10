@@ -11,10 +11,11 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :questions %><br />
-    <%= f.text_area :questions %>
-  </div>
+  <% @quiz.questions.each_with_index do |q, i| %>
+    <%= f.fields_for :questions_attributes, q, :index => i do |builder| %>
+      <%= render "questions_fields", :f => builder %>
+    <% end %>
+  <% end %>
   <div class="actions">
     <%= f.submit %>
   </div>

@@ -1,0 +1,10 @@
+<div class="field">
+  <%= f.label :question %><br />
+  <%= f.text_field :question %>
+
+  <% f.object.answers.each_with_index do |a, i| %>
+    <%= f.fields_for :answers, a, :index => i do |builder| %>
+      <%= render "answers_fields", :f => builder %>
+    <% end %>
+  <% end %>
+</div>
