@@ -2,6 +2,7 @@
 
 <table>
   <tr>
+    <th>Name</th>
     <th>Questions</th>
     <th></th>
     <th></th>
@@ -10,7 +11,8 @@
 
 <% @quizzes.each do |quiz| %>
   <tr>
-    <td><%= quiz.questions %></td>
+    <td><%= quiz.name %></td>
+    <td><%= quiz.questions.size %> questions, <%= quiz.questions.inject(0) { |sum, q| sum + q.answers.size } %> answers in total</td>
     <td><%= link_to 'Show', quiz %></td>
     <td><%= link_to 'Edit', edit_quiz_path(quiz) %></td>
     <td><%= link_to 'Destroy', quiz, confirm: 'Are you sure?', method: :delete %></td>

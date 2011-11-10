@@ -2,8 +2,17 @@
 
 <p>
   <b>Questions:</b>
-  <%= @quiz.questions %>
 </p>
+<ul>
+  <% @quiz.questions.each do |q| %>
+    <li><%= q.question %></li>
+    <ul>
+      <% q.answers.each do |a| %>
+        <li><%= a.answer %></li>
+      <% end %>
+    </ul>
+  <% end %>
+</ul>
 
 
 <%= link_to 'Edit', edit_quiz_path(@quiz) %> |
