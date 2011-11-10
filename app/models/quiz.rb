@@ -4,8 +4,8 @@ class Quiz < ActiveRecord::Base
   end
 
   def questions=(_questions)
-    @questions = _questions
-    write_attribute(:questions, Question.as_json(_questions).to_json)
+    @questions = Question.clean(_questions)
+    write_attribute(:questions, Question.as_json(@questions).to_json)
   end
 
   def questions_attributes=(attrs)

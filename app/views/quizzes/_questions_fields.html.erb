@@ -1,6 +1,8 @@
 <div class="field">
   <%= f.label :question %><br />
   <%= f.text_field :question %>
+  <%= f.check_box :_destroy %>
+  <%= f.label :_destroy %>
 
   <% f.object.answers.each_with_index do |a, i| %>
     <%= f.fields_for :answers, a, :index => i do |builder| %>
