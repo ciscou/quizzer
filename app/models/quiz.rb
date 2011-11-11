@@ -1,11 +1,18 @@
 class Quiz < ActiveRecord::Base
   def questions
-    @questions ||= Question.from_json(read_attribute(:questions))
+    @questions ||= begin
+      json = read_attribute(:questions)
+      if json.present?
+        Question.from_attributes(JSON.parse(json))
+      else
+        []
+      end
+    end
   end
 
   def questions=(_questions)
     @questions = Question.clean(_questions)
-    write_attribute(:questions, Question.as_json(@questions).to_json)
+    write_attribute(:questions, Question.to_attributes(@questions).to_json)
   end
 
   def questions_attributes=(attrs)

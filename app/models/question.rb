@@ -1,12 +1,12 @@
 class Question
   attr_reader :question, :answers, :_destroy
 
-  def self.from_json(json)
-    JSON.parse(json || "{}").values.map { |q| new(q) }
+  def self.from_attributes(attributes)
+    attributes.values.map { |q| new(q) }
   end
 
-  def self.as_json(questions)
-    Hash[questions.each_with_index.map { |q, i| [ i.to_s, q.as_json ] }]
+  def self.to_attributes(questions)
+    Hash[questions.each_with_index.map { |q, i| [ i.to_s, q.attributes ] }]
   end
 
   def self.build
@@ -24,20 +24,16 @@ class Question
     @_new     = attrs["_new"]
   end
 
-  def as_json
-    { "question" => @question, "answers" => Answer.as_json(@answers) }
-  end
-
   def attributes
-    { "question" => @question, "answers" => @answers.map(&:attributes) }
-  end
-
-  def inspect
-    attributes.inspect
+    { "question" => @question, "answers" => Answer.to_attributes(@answers) }
   end
 
   def build_answer
     @answers = @answers + [ Answer.build ]
+  end
+
+  def clean
+    @answers = Answer.clean(@answers)
   end
 
   def destroy?
@@ -45,9 +41,5 @@ class Question
     return false if @_new
     return false unless @answers.all?(&:destroy?)
     @question.blank?
-  end
-
-  def clean
-    @answers = Answer.clean(@answers)
   end
 end

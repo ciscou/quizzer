@@ -1,11 +1,7 @@
 class Answer
   attr_reader :answer, :_destroy
 
-  def self.from_json(json)
-    JSON.parse(json || "{}").values.map { |a| new(a) }
-  end
-
-  def self.as_json(answers)
+  def self.to_attributes(answers)
     Hash[answers.each_with_index.map { |a, i| [ i.to_s, a.attributes ] }]
   end
 
@@ -23,10 +19,6 @@ class Answer
     @_new     = attrs["_new"]
   end
 
-  def as_json
-    { "answer" => @answer }
-  end
-
   def attributes
     { "answer" => @answer }
   end
@@ -35,9 +27,5 @@ class Answer
     return true  if @_destroy
     return false if @_new
     @answer.blank?
-  end
-
-  def inspect
-    attributes.inspect
   end
 end
